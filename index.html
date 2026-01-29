@@ -3,79 +3,73 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MindSurge AI | Clinical Diagnostic</title>
+    <title>MindSurge | Neural Clinical Suite</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #050505; color: white; overflow: hidden; }
-        .neo-glass { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
-        .gradient-text { background: linear-gradient(90deg, #818cf8, #34d399); -webkit-background-clip: text; color: transparent; }
-        .bot-bubble { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-left: 4px solid #818cf8; }
-        .user-bubble { background: #818cf8; color: white; margin-left: auto; }
-        .img-test { cursor: pointer; transition: 0.3s; filter: grayscale(80%); border: 2px solid transparent; }
-        .img-test:hover { filter: grayscale(0%); transform: scale(1.05); border-color: #818cf8; }
-        #chat-flow::-webkit-scrollbar { width: 4px; }
-        #chat-flow::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #020617; color: #f1f5f9; overflow: hidden; }
+        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(24px); border: 1px solid rgba(255,255,255,0.08); }
+        .emergency-mode { background: #450a0a !important; border: 2px solid #ef4444 !important; animation: shake 0.5s infinite; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .bot-bubble { background: #1e293b; border-left: 4px solid #6366f1; }
+        .user-bubble { background: #6366f1; align-self: flex-end; }
+        .scanline { width: 100%; height: 2px; background: rgba(99, 102, 241, 0.2); position: absolute; animation: scan 3s linear infinite; }
+        @keyframes scan { from { top: 0; } to { top: 100%; } }
     </style>
 </head>
 <body class="h-screen flex items-center justify-center p-4">
 
-    <div class="neo-glass w-full max-w-6xl h-[90vh] rounded-[32px] flex flex-col md:flex-row overflow-hidden shadow-2xl">
-        
-        <div class="w-full md:w-80 border-r border-white/5 p-8 flex flex-col gap-6 bg-black/20">
+    <div id="main-frame" class="glass w-full max-w-7xl h-[90vh] rounded-[40px] flex overflow-hidden shadow-2xl relative">
+        <div class="scanline"></div>
+
+        <div class="w-80 border-r border-white/5 p-8 flex flex-col gap-6 bg-black/40">
             <div>
-                <h1 class="text-2xl font-800 gradient-text tracking-tighter italic">MINDSURGE</h1>
-                <p class="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-bold">Psychiatric Neural Suite</p>
+                <h1 class="text-2xl font-800 text-indigo-400 tracking-tighter italic">MINDSURGE AI</h1>
+                <p class="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Clinical Dashboard v6.0</p>
             </div>
 
             <div class="space-y-4">
-                <div class="p-5 rounded-3xl bg-white/5 border border-white/5">
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mb-2">Mood Stability</p>
-                    <div class="flex items-end gap-2">
-                        <span id="mood-score" class="text-4xl font-light text-indigo-400">--</span>
-                        <span class="text-xs text-slate-600 mb-2">index</span>
-                    </div>
+                <div class="p-4 rounded-3xl bg-white/5">
+                    <p class="text-[10px] text-slate-400 uppercase mb-2">Patient Vitals</p>
+                    <div id="vitals" class="text-xl font-bold text-emerald-400">STABLE</div>
                 </div>
-                
-                <div class="p-5 rounded-3xl bg-white/5 border border-white/5">
-                    <p class="text-[10px] text-slate-500 uppercase font-bold mb-3">AI Prescription</p>
-                    <ul id="prescription" class="text-[11px] space-y-2 text-slate-400">
-                        <li>• Awaiting baseline...</li>
+                <div class="p-4 rounded-3xl bg-white/5 border border-indigo-500/20">
+                    <p class="text-[10px] text-indigo-400 uppercase mb-2 font-bold">Recommended Therapy</p>
+                    <ul id="therapy-list" class="text-xs space-y-2 text-slate-300 italic">
+                        <li>• Waiting for input...</li>
                     </ul>
+                </div>
+            </div>
+
+            <div id="emergency-contacts" class="mt-auto p-4 rounded-2xl bg-red-500/10 border border-red-500/20">
+                <p class="text-[10px] text-red-400 font-bold uppercase mb-2">On-Call Consultants</p>
+                <div class="text-[11px] space-y-1 font-mono">
+                    <p>DR. Karthik: 7780680750</p>
+                    <p>DR. Pranu: 9176128548</p>
+                    <p>DR. Chaturya: 7013124160</p>
                 </div>
             </div>
         </div>
 
-        <div class="flex-1 flex flex-col relative">
+        <div class="flex-1 flex flex-col relative bg-black/20">
             <div id="chat-flow" class="flex-1 overflow-y-auto p-10 space-y-6">
-                <div class="bot-bubble p-5 rounded-2xl max-w-[80%] text-sm leading-relaxed">
-                    Greetings. I am the MindSurge Clinical Lead. To begin your mental health assessment, please describe your current emotional state in one sentence.
+                <div class="bot-bubble p-6 rounded-3xl max-w-[85%] text-sm leading-relaxed">
+                    Hello. I am the MindSurge Clinical Lead. I have integrated my neural network with psychiatric protocols. <br><br>
+                    To begin, I will display a series of **Visual Stimuli**. Your choice will reveal your current subconscious state.
                 </div>
             </div>
 
-            <div id="visual-test" class="hidden absolute inset-0 bg-black/90 z-50 p-10 flex flex-col items-center justify-center text-center backdrop-blur-md">
-                <span class="text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-2">Phase 02: Visual Projection</span>
-                <h3 class="text-2xl font-bold mb-8">Which landscape matches your current "Internal Weather"?</h3>
-                <div class="grid grid-cols-3 gap-6 max-w-3xl">
-                    <div onclick="recordVisual('Growth', 88)" class="text-center">
-                        <img src="https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=300&q=80" class="rounded-2xl img-test mb-2">
-                        <p class="text-[10px] text-slate-500">Pattern A</p>
+            <div id="visual-matrix" class="hidden absolute inset-0 bg-slate-950/95 z-50 flex flex-col items-center justify-center p-10">
+                <h3 id="test-title" class="text-2xl font-bold mb-2">Projective Analysis</h3>
+                <p id="test-desc" class="text-sm text-slate-400 mb-10">Select the visual that resonates with your current energy.</p>
+                <div id="image-grid" class="grid grid-cols-3 gap-6 max-w-4xl">
                     </div>
-                    <div onclick="recordVisual('Isolation', 32)" class="text-center">
-                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=300&q=80" class="rounded-2xl img-test mb-2">
-                        <p class="text-[10px] text-slate-500">Pattern B</p>
-                    </div>
-                    <div onclick="recordVisual('Chaos', 12)" class="text-center">
-                        <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=300&q=80" class="rounded-2xl img-test mb-2">
-                        <p class="text-[10px] text-slate-500">Pattern C</p>
-                    </div>
-                </div>
             </div>
 
-            <div class="p-8">
-                <div class="neo-glass p-2 rounded-3xl flex items-center gap-3 border border-white/10">
-                    <input type="text" id="user-input" placeholder="Type your response here..." class="bg-transparent flex-1 px-5 py-3 outline-none text-sm text-white">
-                    <button onclick="handleLogic()" class="bg-indigo-600 hover:bg-indigo-500 p-4 rounded-2xl transition-all shadow-lg shadow-indigo-500/40">
+            <div class="p-10 pt-0">
+                <div class="glass p-2 rounded-[30px] flex items-center gap-4">
+                    <input type="text" id="user-input" placeholder="How are you feeling deep down?" class="bg-transparent flex-1 px-6 py-4 outline-none text-sm">
+                    <button onclick="handleLogic()" class="bg-indigo-600 hover:bg-indigo-500 p-5 rounded-2xl transition-all shadow-lg">
                         <svg width="20" height="20" fill="none" stroke="white" stroke-width="2.5" viewBox="0 0 24 24"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
                     </button>
                 </div>
@@ -84,9 +78,29 @@
     </div>
 
 <script>
-    // PASTE KEY HERE
-    const KEY = "AIzaSyCNUbPq1LVTMZv65bOHrfqnCPUVS6SHKWI"; 
-    let step = 0;
+    // Replace with your API key
+    const API_KEY = "AIzaSyAeWEHd8aUUD8ufq3vV4QCptdfH-mHJMJs";
+    let currentStep = 0;
+
+    const offlineResponses = {
+        "anxious": "Clinical analysis suggests heightened cortisol levels. Focus on 'Grounding'—name 3 things you can hear right now.",
+        "sad": "I detect an emotional low. Remember, your current state is data, not a permanent conclusion. You are resilient.",
+        "stress": "Academic pressure detected. Prioritize 'Micro-Wins'. Accomplish one 5-minute task to reset your dopamine.",
+        "default": "I am processing your emotional wavelength. You are in a safe, clinical space. Tell me more about that."
+    };
+
+    const imageSets = [
+        [
+            { url: "https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=300", tag: "Nature" },
+            { url: "https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=300", tag: "Calm" },
+            { url: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=300", tag: "Power" }
+        ],
+        [
+            { url: "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&w=300", tag: "Growth" },
+            { url: "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?auto=format&fit=crop&w=300", tag: "Void" },
+            { url: "https://images.unsplash.com/photo-1475113548554-5a36f1f523d6?auto=format&fit=crop&w=300", tag: "Lonely" }
+        ]
+    ];
 
     async function handleLogic() {
         const input = document.getElementById('user-input');
@@ -95,58 +109,87 @@
 
         addBubble(text, 'user-bubble');
         input.value = "";
-        step++;
 
-        if(step === 1) {
+        // EMERGENCY DETECTION
+        const dangerWords = ['kill', 'suicide', 'hurt', 'end my life', 'die', 'cutting'];
+        if(dangerWords.some(word => text.toLowerCase().includes(word))) {
+            triggerEmergency();
+            return;
+        }
+
+        currentStep++;
+        
+        if(currentStep === 1) {
             setTimeout(() => {
-                addBubble("Baseline received. Processing emotional markers... Please complete the Visual Projection Test.", 'bot-bubble');
-                document.getElementById('visual-test').classList.remove('hidden');
-            }, 800);
+                showVisualTest(0);
+            }, 1000);
         } else {
-            const response = await callAI(text);
-            addBubble(response, 'bot-bubble');
+            const botRes = await callAPI(text);
+            addBubble(botRes, 'bot-bubble');
         }
     }
 
-    function recordVisual(choice, score) {
-        document.getElementById('visual-test').classList.add('hidden');
-        document.getElementById('mood-score').innerText = score;
+    function showVisualTest(index) {
+        const grid = document.getElementById('image-grid');
+        grid.innerHTML = "";
+        imageSets[index].forEach(img => {
+            const div = document.createElement('div');
+            div.innerHTML = `<img src="${img.url}" class="rounded-3xl cursor-pointer hover:scale-105 transition border-4 border-transparent hover:border-indigo-500 shadow-2xl" onclick="selectVisual('${img.tag}')">`;
+            grid.appendChild(div);
+        });
+        document.getElementById('visual-matrix').classList.remove('hidden');
+    }
+
+    function selectVisual(tag) {
+        document.getElementById('visual-matrix').classList.add('hidden');
+        addBubble(`I am drawn to the "${tag}" imagery.`, 'user-bubble');
         
-        // Update Prescription
-        const presc = document.getElementById('prescription');
-        if(score < 40) {
-            presc.innerHTML = "<li>• Box Breathing (4-4-4)</li><li>• Urgent Counselor Alert</li><li>• Cortisol Reduction Exercise</li>";
-            addBubble(`Visual analysis suggests high internal friction (${choice}). I am initiating a calming protocol. How does your body feel right now?`, 'bot-bubble');
+        const therapy = document.getElementById('therapy-list');
+        if(tag === 'Void' || tag === 'Lonely' || tag === 'Chaos') {
+            therapy.innerHTML = "<li>• Sensory Re-engagement</li><li>• Call Counselor Immediately</li><li>• 4-7-8 Breathing</li>";
+            addBubble("Diagnostic alert: Your choice suggests internal isolation. I am adjusting your therapy index.", "bot-bubble");
         } else {
-            presc.innerHTML = "<li>• Maintain Cognitive Flow</li><li>• Gratitude Journaling</li><li>• Social Connection Task</li>";
-            addBubble(`Visual analysis suggests stability (${choice}). You are showing high resilience. What is one goal you have for tomorrow?`, 'bot-bubble');
+            therapy.innerHTML = "<li>• High-Frequency Productivity</li><li>• Gratitude Extension</li><li>• Social Leadership</li>";
+            addBubble("Stability confirmed. Your visual preference shows high cognitive resilience.", "bot-bubble");
         }
+    }
+
+    function triggerEmergency() {
+        document.getElementById('main-frame').classList.add('emergency-mode');
+        addBubble("URGENT: I've detected a high-risk emotional state. I am locking this session and prioritizing your safety. Please call one of our consultants immediately.", 'bot-bubble');
+        document.getElementById('vitals').innerText = "CRITICAL";
+        document.getElementById('vitals').className = "text-xl font-bold text-red-500 animate-bounce";
+        alert("CRITICAL ALERT: Please contact 7780680750 now. You are not alone.");
     }
 
     function addBubble(text, className) {
         const b = document.createElement('div');
-        b.className = `${className} p-5 rounded-2xl max-w-[80%] text-sm animate-in fade-in slide-in-from-bottom-2 duration-300`;
+        b.className = `${className} p-6 rounded-3xl max-w-[85%] text-sm mb-4 leading-relaxed shadow-xl animate-in fade-in slide-in-from-bottom-2`;
         b.innerText = text;
         const flow = document.getElementById('chat-flow');
         flow.appendChild(b);
         flow.scrollTop = flow.scrollHeight;
     }
 
-    async function callAI(prompt) {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${KEY}`;
+    async function callAPI(prompt) {
+        const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${API_KEY}`;
         try {
             const r = await fetch(url, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({
-                    contents: [{ parts: [{ text: `Role: Clinical Psychiatrist. Personality: Warm, motivating, professional. Task: Analyze student's mental health and give a supportive 2-sentence response. Input: ${prompt}` }] }]
+                    contents: [{ parts: [{ text: `Psychiatrist role. User: ${prompt}. Be professional, warm, and highly motivating.` }] }]
                 })
             });
             const d = await r.json();
             return d.candidates[0].content.parts[0].text;
         } catch (e) {
-            console.error(e);
-            return "Connection error. Ensure you are running this through a 'Live Server' or GitHub Pages.";
+            // OFFLINE INTELLIGENCE
+            let response = offlineResponses.default;
+            if(prompt.includes("anxious")) response = offlineResponses.anxious;
+            if(prompt.includes("sad")) response = offlineResponses.sad;
+            if(prompt.includes("stress")) response = offlineResponses.stress;
+            return "Note: Cloud Engine Offline. Local Diagnostic: " + response;
         }
     }
 </script>
